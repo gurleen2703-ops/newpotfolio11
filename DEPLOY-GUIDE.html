@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Deploy Guide – World Social Solutions</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Sora',sans-serif;background:#060F22;color:#e2eaff;line-height:1.6;min-height:100vh}
+a{color:#6ED4FF;text-decoration:none}
+a:hover{text-decoration:underline}
+code,pre{font-family:'JetBrains Mono',monospace}
+
+/* TOP BAR */
+.topbar{background:linear-gradient(135deg,#3F8CFF,#6ED4FF);padding:14px 6%;display:flex;align-items:center;gap:12px}
+.topbar .logo{width:36px;height:36px;background:rgba(255,255,255,0.25);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:800;color:#fff;flex-shrink:0}
+.topbar h1{font-size:1rem;font-weight:700;color:#fff}
+.topbar p{font-size:.78rem;color:rgba(255,255,255,.8);margin-top:1px}
+
+/* LAYOUT */
+.container{max-width:860px;margin:0 auto;padding:52px 24px 80px}
+
+/* HERO */
+.guide-hero{text-align:center;padding:48px 0 52px}
+.guide-hero .badge{display:inline-flex;align-items:center;gap:8px;background:rgba(63,140,255,0.12);border:1px solid rgba(63,140,255,0.28);border-radius:30px;padding:5px 16px;font-size:.72rem;font-weight:700;letter-spacing:.1em;color:#6ED4FF;text-transform:uppercase;margin-bottom:20px}
+.guide-hero h2{font-size:2.4rem;font-weight:800;margin-bottom:14px;letter-spacing:-.02em}
+.guide-hero p{font-size:1rem;color:#8CA3C8;max-width:560px;margin:0 auto}
+
+/* QUICK NAV */
+.quick-nav{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:56px}
+.qn-btn{background:rgba(63,140,255,0.1);border:1px solid rgba(63,140,255,0.22);border-radius:8px;padding:8px 18px;font-family:'Sora',sans-serif;font-size:.8rem;font-weight:600;color:#6ED4FF;cursor:pointer;transition:all .2s}
+.qn-btn:hover{background:rgba(63,140,255,0.2)}
+
+/* SECTION */
+.guide-section{margin-bottom:56px}
+.section-label{display:flex;align-items:center;gap:10px;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:#6ED4FF;font-weight:700;margin-bottom:14px}
+.section-label::before{content:'';width:22px;height:2px;background:linear-gradient(135deg,#3F8CFF,#6ED4FF);border-radius:2px}
+.section-title{font-size:1.5rem;font-weight:800;margin-bottom:8px;letter-spacing:-.02em}
+.section-sub{font-size:.9rem;color:#8CA3C8;margin-bottom:28px;line-height:1.7}
+
+/* STEPS */
+.steps{display:flex;flex-direction:column;gap:0}
+.step{display:flex;gap:20px;padding:22px 0;border-bottom:1px solid rgba(63,140,255,0.08)}
+.step:last-child{border-bottom:none}
+.step-left{display:flex;flex-direction:column;align-items:center;gap:0;flex-shrink:0}
+.step-num{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#3F8CFF,#6ED4FF);display:flex;align-items:center;justify-content:center;font-size:.9rem;font-weight:800;color:#fff;flex-shrink:0}
+.step-line{width:2px;flex:1;background:rgba(63,140,255,0.15);margin-top:8px;min-height:20px}
+.step:last-child .step-line{display:none}
+.step-body{flex:1;padding-top:6px}
+.step-body h4{font-size:.98rem;font-weight:700;margin-bottom:6px;color:#fff}
+.step-body p{font-size:.86rem;color:#8CA3C8;line-height:1.7;margin-bottom:10px}
+.step-body p:last-child{margin-bottom:0}
+
+/* CODE BLOCK */
+.code{background:#030A14;border:1px solid rgba(63,140,255,0.18);border-radius:10px;padding:16px 18px;margin:10px 0;overflow-x:auto}
+.code .cmd{display:flex;align-items:flex-start;gap:10px;margin-bottom:6px}
+.code .cmd:last-child{margin-bottom:0}
+.code .prompt{color:rgba(110,212,255,.4);font-size:.82rem;flex-shrink:0;margin-top:1px}
+.code .txt{color:#6ED4FF;font-size:.83rem;line-height:1.6}
+.code .comment{color:rgba(110,212,255,.35);font-size:.76rem}
+.code-inline{background:rgba(63,140,255,0.12);border:1px solid rgba(63,140,255,0.2);border-radius:4px;padding:2px 7px;font-size:.82rem;color:#6ED4FF;font-family:'JetBrains Mono',monospace}
+
+/* TIP / WARNING BOXES */
+.tip{background:rgba(63,140,255,0.07);border:1px solid rgba(63,140,255,0.2);border-radius:10px;padding:14px 16px;font-size:.84rem;color:#a8c0e0;line-height:1.7;margin:14px 0}
+.tip strong{color:#fff}
+.tip .tip-icon{font-size:1rem;margin-right:6px}
+.warn{background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.22);border-radius:10px;padding:14px 16px;font-size:.84rem;color:#fcd34d;line-height:1.7;margin:14px 0}
+.warn strong{color:#fde68a}
+.success-box{background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.22);border-radius:10px;padding:14px 16px;font-size:.84rem;color:#86efac;line-height:1.7;margin:14px 0}
+
+/* METHODS GRID */
+.methods-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:24px 0}
+.method-card{background:rgba(14,35,84,0.5);border:1px solid rgba(63,140,255,0.15);border-radius:14px;padding:22px 18px;transition:all .25s;cursor:default}
+.method-card:hover{border-color:rgba(63,140,255,0.3);transform:translateY(-3px)}
+.method-card .mc-icon{font-size:1.8rem;margin-bottom:12px}
+.method-card h4{font-size:.9rem;font-weight:700;margin-bottom:6px;color:#fff}
+.method-card p{font-size:.78rem;color:#8CA3C8;line-height:1.55}
+.method-card .mc-tag{display:inline-block;background:rgba(63,140,255,0.12);border-radius:20px;padding:2px 10px;font-size:.68rem;font-weight:700;color:#6ED4FF;margin-top:10px;letter-spacing:.05em}
+
+/* WORKFLOW CHART */
+.workflow{display:flex;align-items:center;gap:0;margin:28px 0;flex-wrap:wrap;justify-content:center}
+.wf-step{display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px}
+.wf-box{background:rgba(14,35,84,0.8);border:1px solid rgba(63,140,255,0.22);border-radius:10px;padding:12px 16px;min-width:110px}
+.wf-box .wb-icon{font-size:1.3rem;margin-bottom:4px}
+.wf-box h5{font-size:.74rem;font-weight:700;color:#fff}
+.wf-box p{font-size:.64rem;color:#8CA3C8;margin-top:2px}
+.wf-arrow{font-size:1.2rem;color:rgba(63,140,255,0.4);margin:0 6px;margin-top:-20px}
+
+/* TABLE */
+.guide-table{width:100%;border-collapse:collapse;margin:16px 0}
+.guide-table th{text-align:left;padding:10px 14px;font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#6ED4FF;background:rgba(63,140,255,0.08);border-bottom:1px solid rgba(63,140,255,0.15)}
+.guide-table td{padding:11px 14px;font-size:.84rem;color:#a8c0e0;border-bottom:1px solid rgba(63,140,255,0.07)}
+.guide-table tr:last-child td{border-bottom:none}
+.guide-table tr:hover td{background:rgba(63,140,255,0.04)}
+.tag-green{background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.25);color:#86efac;border-radius:20px;padding:2px 9px;font-size:.72rem;font-weight:600}
+.tag-blue{background:rgba(63,140,255,0.1);border:1px solid rgba(63,140,255,0.25);color:#6ED4FF;border-radius:20px;padding:2px 9px;font-size:.72rem;font-weight:600}
+.tag-yellow{background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.25);color:#fcd34d;border-radius:20px;padding:2px 9px;font-size:.72rem;font-weight:600}
+
+/* DIVIDER */
+.divider{height:1px;background:rgba(63,140,255,0.08);margin:48px 0}
+@media(max-width:600px){.methods-grid{grid-template-columns:1fr}.workflow{flex-direction:column}.wf-arrow{transform:rotate(90deg);margin:4px 0}}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="logo">W</div>
+  <div>
+    <h1>World Social Solutions — Deployment Guide</h1>
+    <p>How to deploy your website + admin panel to Vercel</p>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="guide-hero">
+    <div class="badge">🚀 Full Deployment Guide</div>
+    <h2>Deploy Your Website &amp; Admin Panel to Vercel</h2>
+    <p>Step-by-step instructions for getting your 5-page website and admin panel live on the internet — for free.</p>
+  </div>
+
+  <div class="quick-nav">
+    <a href="#part1" class="qn-btn">Part 1 — First Time Setup</a>
+    <a href="#part2" class="qn-btn">Part 2 — Deploy to Vercel</a>
+    <a href="#part3" class="qn-btn">Part 3 — Update Content Live</a>
+    <a href="#part4" class="qn-btn">Part 4 — Custom Domain</a>
+    <a href="#part5" class="qn-btn">Part 5 — Troubleshooting</a>
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <div class="guide-section">
+    <div class="section-label">Overview</div>
+    <h2 class="section-title">How It All Works Together</h2>
+    <p class="section-sub">Your website is pure HTML/CSS/JS — no server needed. Here's the complete workflow:</p>
+    <div class="workflow">
+      <div class="wf-step">
+        <div class="wf-box"><div class="wb-icon">💻</div><h5>VS Code</h5><p>You edit content in Admin Panel</p></div>
+      </div>
+      <div class="wf-arrow">→</div>
+      <div class="wf-step">
+        <div class="wf-box"><div class="wb-icon">⬇</div><h5>Export JS</h5><p>Download sitedata.js</p></div>
+      </div>
+      <div class="wf-arrow">→</div>
+      <div class="wf-step">
+        <div class="wf-box"><div class="wb-icon">🐱</div><h5>GitHub</h5><p>Push files to repo</p></div>
+      </div>
+      <div class="wf-arrow">→</div>
+      <div class="wf-step">
+        <div class="wf-box"><div class="wb-icon">▲</div><h5>Vercel</h5><p>Auto-deploys in 20s</p></div>
+      </div>
+      <div class="wf-arrow">→</div>
+      <div class="wf-step">
+        <div class="wf-box"><div class="wb-icon">🌍</div><h5>Live Site</h5><p>worldsocialsolutions.in</p></div>
+      </div>
+    </div>
+
+    <div class="methods-grid">
+      <div class="method-card">
+        <div class="mc-icon">🖱️</div>
+        <h4>Method A — Drag &amp; Drop</h4>
+        <p>Drag your folder to Vercel. Quickest way to get live. No GitHub needed.</p>
+        <span class="mc-tag">5 MINUTES</span>
+      </div>
+      <div class="method-card">
+        <div class="mc-icon">🐱</div>
+        <h4>Method B — GitHub + Vercel</h4>
+        <p>Connect GitHub repo. Every push auto-deploys. Best for ongoing updates.</p>
+        <span class="mc-tag">RECOMMENDED</span>
+      </div>
+      <div class="method-card">
+        <div class="mc-icon">⌨️</div>
+        <h4>Method C — Vercel CLI</h4>
+        <p>Deploy from VS Code terminal with one command. For developers.</p>
+        <span class="mc-tag">ADVANCED</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- PART 1 -->
+  <div class="guide-section" id="part1">
+    <div class="section-label">Part 1</div>
+    <h2 class="section-title">First Time Setup</h2>
+    <p class="section-sub">You only do this once. Takes about 10 minutes total.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-left"><div class="step-num">1</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <h4>Create a GitHub Account</h4>
+          <p>Go to <a href="https://github.com" target="_blank">github.com</a> → Click <strong>"Sign Up"</strong> → Enter your email, create a password, choose a username → Verify your email.</p>
+          <div class="tip"><span class="tip-icon">💡</span> Use your business email for a professional look. Your GitHub username will appear in your repo URL.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-left"><div class="step-num">2</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <h4>Create a New Repository</h4>
+          <p>After logging in to GitHub:</p>
+          <p>① Click the <strong>green "New"</strong> button or the <strong>+</strong> icon → "New repository"<br>
+          ② Repository name: <code class="code-inline">wss</code><br>
+          ③ Set it to <strong>Public</strong> (required for free Vercel hosting)<br>
+          ④ Leave everything else as default → Click <strong>"Create repository"</strong></p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-left"><div class="step-num">3</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <h4>Install Git on Your Computer</h4>
+          <p>Git is the tool that sends your files to GitHub.</p>
+          <p>→ Windows: Download from <a href="https://git-scm.com" target="_blank">git-scm.com</a> → Install with all default settings<br>
+          → Mac: Open Terminal → type <code class="code-inline">git --version</code> → if not installed, it will prompt you to install it</p>
+          <p>After installing, open a terminal (VS Code terminal works) and configure your identity:</p>
+          <div class="code">
+            <div class="cmd"><span class="prompt">$</span><span class="txt">git config --global user.name "Gurleen Kaur"</span></div>
+            <div class="cmd"><span class="prompt">$</span><span class="txt">git config --global user.email "worldsocialsolutions6@gmail.com"</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-left"><div class="step-num">4</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <h4>Create a Vercel Account</h4>
+          <p>Go to <a href="https://vercel.com" target="_blank">vercel.com</a> → Click <strong>"Sign Up"</strong> → Choose <strong>"Continue with GitHub"</strong> → Authorize Vercel.</p>
+          <div class="tip"><span class="tip-icon">💡</span> Signing up with GitHub links both accounts automatically — Vercel can then see and deploy your repos directly.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- PART 2 METHOD A -->
+  <div class="guide-section" id="part2">
+    <div class="section-label">Part 2 — Method A</div>
+    <h2 class="section-title">Deploy via Drag &amp; Drop</h2>
+    <p class="section-sub">Quickest way to get your site live. No GitHub required.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-left"><div class="step-num">1</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <h4>Go to Vercel Drop</h4>
+          <p>Open <a href="https://vercel.com/new" target="_blank">vercel.com/new</a> in your browser. Log in if prompted.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-left"><div class="step-num">2</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <h4>Drag Your Folder</h4>
+          <p>Find your <code class="code-inline">wss</code> folder on your computer. Drag the entire folder onto the Vercel webpage where it says "Import Project".</p>
+          <div class="warn"><strong>⚠ Important:</strong> Drag the <strong>wss folder itself</strong> — not just the files inside it. The folder should contain <code class="code-inline">index.html</code>, <code class="code-inline">pages/</code>, <code class="code-inline">admin/</code>, etc.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-left"><div class="step-num">3</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <h4>Deploy</h4>
+          <p>Vercel detects it's a static site. Leave all settings as default → Click <strong>"Deploy"</strong>.</p>
+          <p>In about 30 seconds you'll get a URL like: <code class="code-inline">wss-abc123.vercel.app</code> 🎉</p>
+          <div class="tip"><span class="tip-icon">💡</span> Your admin panel is also live at: <code class="code-inline">wss-abc123.vercel.app/admin/</code></div>
+        </div>
+      </div>
+    </div>
+    <div class="warn"><strong>⚠ Limitation:</strong> With drag &amp; drop, you have to re-drag every time you make changes. For ongoing updates, use Method B below.</div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- PART 2 METHOD B -->
+  <div class="guide-section">
+    <div class="section-label">Part 2 — Method B (Recommended)</div>
+    <h2 class="section-title">Deploy via GitHub + Vercel</h2>
+    <p class="section-sub">Set up once — then every change you push to GitHub automatically goes live on your site.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-left"><div class="step-num">1</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <h4>Open Your Project in VS Code Terminal</h4>
+          <p>In VS Code, open the <code class="code-inline">wss</code> folder. Then open the terminal:</p>
+          <p><strong>Terminal → New Terminal</strong> (or press <code class="code-inline">Ctrl + `</code>)</p>
+          <p>Make sure the terminal shows you're inside the <code class="code-inline">wss</code> folder.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-left"><div class="step-num">2</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <h4>Initialise Git &amp; Push to GitHub</h4>
+          <p>Run these commands one by one in the terminal:</p>
+          <div class="code">
+            <div class="cmd"><span class="comment"># Initialise git in your project</span></div>
+            <div class="cmd"><span class="prompt">$</span><span class="txt">git init</span></div>
+            <div class="cmd"><span class="comment"># Stage all files</span></div>
+            <div class="cmd"><span class="prompt">$</span><span class="txt">git add .</span></div>
+            <div class="cmd"><span class="comment"># Create first commit</span></div>
+            <div class="cmd"><span class="prompt">$</span><span class="txt">git commit -m "initial website launch"</span></div>
+            <div class="cmd"><span class="comment"># Set main branch name</span></div>
+            <div class="cmd"><span class="prompt">$</span><span class="txt">git branch -M main</span></div>
+            <div class="cmd"><span class="comment"># Connect to your GitHub repo (replace YOUR_USERNAME)</span></div>
+            <div class="cmd"><span class="prompt">$</span><span class="txt">git remote add origin https://github.com/YOUR_USERNAME/wss.git</span></div>
+            <div class="cmd"><span class="comment"># Push files to GitHub</span></div>
+            <div class="cmd"><span class="prompt">$</span><span class="txt">git push -u origin main</span></div>
+          </div>
+          <div class="tip"><span class="tip-icon">💡</span> Replace <code class="code-inline">YOUR_USERNAME</code> with your actual GitHub username. You can find the exact URL on your GitHub repo page — click the green "Code" button → copy the HTTPS URL.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-left"><div class="step-num">3</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <h4>Import to Vercel</h4>
+          <p>① Go to <a href="https://vercel.com/new" target="_blank">vercel.com/new</a><br>
+          ② Click <strong>"Import Git Repository"</strong><br>
+          ③ You'll see your <code class="code-inline">wss</code> repo listed → Click <strong>"Import"</strong><br>
+          ④ Framework Preset: leave as <strong>"Other"</strong><br>
+          ⑤ Root Directory: leave as <strong>"./"</strong> (default)<br>
+          ⑥ Click <strong>"Deploy"</strong></p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-left"><div class="step-num">4</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <h4>Your Site is Live! ✅</h4>
+          <p>Vercel gives you a URL like <code class="code-inline">wss.vercel.app</code> or <code class="code-inline">wss-yourusername.vercel.app</code></p>
+          <p>→ Main website: <code class="code-inline">https://wss.vercel.app/</code><br>
+          → Admin panel: <code class="code-inline">https://wss.vercel.app/admin/</code></p>
+          <div class="success-box">✅ From now on, every time you push to GitHub, Vercel auto-deploys your site in ~20 seconds. No manual steps needed.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- PART 3 — UPDATING CONTENT -->
+  <div class="guide-section" id="part3">
+    <div class="section-label">Part 3 — Most Important</div>
+    <h2 class="section-title">How to Update Live Site Content</h2>
+    <p class="section-sub">This is the workflow you'll use every time you want to update your website after it's live.</p>
+
+    <div class="tip"><span class="tip-icon">ℹ️</span> <strong>Why is this needed?</strong> The Admin Panel saves to your browser's localStorage — which only exists on your computer. To make changes appear on the live Vercel site, you need to export and push the updated data file.</div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-left"><div class="step-num">1</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <h4>Open Admin Panel Locally</h4>
+          <p>In VS Code, right-click <code class="code-inline">index.html</code> → "Open with Live Server" → Navigate to <code class="code-inline">http://127.0.0.1:5500/admin/</code></p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-left"><div class="step-num">2</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <h4>Make Your Changes</h4>
+          <p>Add a new portfolio item, update a testimonial, change your phone number — whatever you need. Click the <strong>Save</strong> button for each section.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-left"><div class="step-num">3</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <h4>Click "⬇ Export sitedata.js"</h4>
+          <p>In the Admin Panel, click the <strong>"⬇ Export sitedata.js"</strong> button in the top header or the sidebar. This downloads a file called <code class="code-inline">sitedata.js</code> to your Downloads folder.</p>
+          <div class="tip"><span class="tip-icon">💡</span> This file contains ALL your content baked in — so the live site will use it directly without needing localStorage.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-left"><div class="step-num">4</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <h4>Replace the File in Your Project</h4>
+          <p>Copy the downloaded <code class="code-inline">sitedata.js</code> file and paste it into your project's <code class="code-inline">data/</code> folder, replacing the existing one.</p>
+          <p>Path: <code class="code-inline">wss/data/sitedata.js</code></p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-left"><div class="step-num">5</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <h4>Push to GitHub</h4>
+          <p>In the VS Code terminal:</p>
+          <div class="code">
+            <div class="cmd"><span class="prompt">$</span><span class="txt">git add data/sitedata.js</span></div>
+            <div class="cmd"><span class="prompt">$</span><span class="txt">git commit -m "update site content"</span></div>
+            <div class="cmd"><span class="prompt">$</span><span class="txt">git push</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-left"><div class="step-num">6</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <h4>Vercel Deploys Automatically ✅</h4>
+          <p>Vercel detects the push and deploys in ~20 seconds. Visit your Vercel dashboard to watch the deployment. Your live site is updated!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- PART 4 — CUSTOM DOMAIN -->
+  <div class="guide-section" id="part4">
+    <div class="section-label">Part 4</div>
+    <h2 class="section-title">Add Your Custom Domain</h2>
+    <p class="section-sub">Connect <code class="code-inline">worldsocialsolutions.in</code> (or any domain) to your Vercel project.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-left"><div class="step-num">1</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <h4>Buy a Domain (if you haven't already)</h4>
+          <p>Popular registrars for Indian domains:<br>
+          → <a href="https://www.godaddy.com" target="_blank">GoDaddy.com</a> — <code class="code-inline">.in</code> domains from ~₹800/year<br>
+          → <a href="https://www.bigrock.in" target="_blank">BigRock.in</a> — good Indian registrar<br>
+          → <a href="https://hostinger.in" target="_blank">Hostinger.in</a> — affordable options</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-left"><div class="step-num">2</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <h4>Add Domain in Vercel</h4>
+          <p>① Go to <a href="https://vercel.com/dashboard" target="_blank">vercel.com/dashboard</a><br>
+          ② Click your <code class="code-inline">wss</code> project<br>
+          ③ Go to <strong>Settings → Domains</strong><br>
+          ④ Type your domain: <code class="code-inline">worldsocialsolutions.in</code><br>
+          ⑤ Click <strong>Add</strong></p>
+          <p>Vercel will show you two DNS records to add — keep this tab open.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-left"><div class="step-num">3</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <h4>Add DNS Records at Your Registrar</h4>
+          <p>Log in to your domain registrar (GoDaddy, BigRock, etc.) → Find <strong>DNS Management</strong> or <strong>DNS Settings</strong>.</p>
+          <p>Add the records Vercel showed you. Usually:</p>
+          <table class="guide-table">
+            <tr><th>Type</th><th>Name</th><th>Value</th></tr>
+            <tr><td><span class="tag-blue">A</span></td><td>@</td><td>76.76.21.21</td></tr>
+            <tr><td><span class="tag-blue">CNAME</span></td><td>www</td><td>cname.vercel-dns.com</td></tr>
+          </table>
+          <div class="tip"><span class="tip-icon">💡</span> The exact values will be shown by Vercel — copy them from there, don't type from memory.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-left"><div class="step-num">4</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <h4>Wait for DNS Propagation</h4>
+          <p>DNS changes take <strong>5 minutes to 48 hours</strong> to propagate globally. Usually it's under 30 minutes.</p>
+          <p>Once done, your site is live at <code class="code-inline">https://worldsocialsolutions.in</code> with a free SSL certificate (HTTPS) included automatically by Vercel. ✅</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- PART 5 — TROUBLESHOOTING -->
+  <div class="guide-section" id="part5">
+    <div class="section-label">Part 5</div>
+    <h2 class="section-title">Troubleshooting</h2>
+    <p class="section-sub">Common issues and how to fix them.</p>
+
+    <table class="guide-table">
+      <tr>
+        <th>Problem</th>
+        <th>Fix</th>
+      </tr>
+      <tr>
+        <td>Admin changes don't show on live site</td>
+        <td>Export sitedata.js → replace data/sitedata.js → push to GitHub</td>
+      </tr>
+      <tr>
+        <td>Git push asks for username/password</td>
+        <td>Use a GitHub Personal Access Token — GitHub Settings → Developer Settings → Tokens → Generate</td>
+      </tr>
+      <tr>
+        <td>Vercel build fails</td>
+        <td>Check that index.html is in the root of the wss folder. Framework must be set to "Other"</td>
+      </tr>
+      <tr>
+        <td>Images not showing on live site</td>
+        <td>Make sure image files are inside assets/images/ and paths in admin are correct (case-sensitive on Linux)</td>
+      </tr>
+      <tr>
+        <td>Domain not connecting</td>
+        <td>DNS can take up to 48 hours. Use <a href="https://dnschecker.org" target="_blank">dnschecker.org</a> to check propagation</td>
+      </tr>
+      <tr>
+        <td>git command not found</td>
+        <td>Install Git from git-scm.com and restart VS Code</td>
+      </tr>
+      <tr>
+        <td>Pages give 404 on Vercel</td>
+        <td>Add a vercel.json file to your project root (see below)</td>
+      </tr>
+    </table>
+
+    <p style="margin-top:20px;font-size:.86rem;color:#8CA3C8">If pages give 404 errors, create a file <code class="code-inline">vercel.json</code> in your <code class="code-inline">wss</code> folder with this content:</p>
+    <div class="code">
+      <div class="cmd"><span class="txt">{</span></div>
+      <div class="cmd"><span class="txt">  "rewrites": [{ "source": "/(.*)", "destination": "/$1" }]</span></div>
+      <div class="cmd"><span class="txt">}</span></div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- CHEAT SHEET -->
+  <div class="guide-section">
+    <div class="section-label">Quick Reference</div>
+    <h2 class="section-title">Commands Cheat Sheet</h2>
+    <p class="section-sub">Save this — you'll use these commands every time you update the site.</p>
+
+    <div class="code">
+      <div class="cmd"><span class="comment"># ── FIRST TIME ONLY ──────────────────────────────────</span></div>
+      <div class="cmd"><span class="prompt">$</span><span class="txt">git init</span></div>
+      <div class="cmd"><span class="prompt">$</span><span class="txt">git add .</span></div>
+      <div class="cmd"><span class="prompt">$</span><span class="txt">git commit -m "initial commit"</span></div>
+      <div class="cmd"><span class="prompt">$</span><span class="txt">git branch -M main</span></div>
+      <div class="cmd"><span class="prompt">$</span><span class="txt">git remote add origin https://github.com/YOUR_USERNAME/wss.git</span></div>
+      <div class="cmd"><span class="prompt">$</span><span class="txt">git push -u origin main</span></div>
+      <div class="cmd"><span class="comment">&nbsp;</span></div>
+      <div class="cmd"><span class="comment"># ── EVERY TIME YOU UPDATE CONTENT ────────────────────</span></div>
+      <div class="cmd"><span class="comment"># 1. Export sitedata.js from Admin Panel</span></div>
+      <div class="cmd"><span class="comment"># 2. Replace wss/data/sitedata.js with downloaded file</span></div>
+      <div class="cmd"><span class="comment"># 3. Then run:</span></div>
+      <div class="cmd"><span class="prompt">$</span><span class="txt">git add .</span></div>
+      <div class="cmd"><span class="prompt">$</span><span class="txt">git commit -m "update content"</span></div>
+      <div class="cmd"><span class="prompt">$</span><span class="txt">git push</span></div>
+      <div class="cmd"><span class="comment">&nbsp;</span></div>
+      <div class="cmd"><span class="comment"># ── CHECK WHAT'S CHANGED ────────────────────────────</span></div>
+      <div class="cmd"><span class="prompt">$</span><span class="txt">git status</span></div>
+    </div>
+
+    <div class="success-box" style="margin-top:20px">
+      ✅ <strong>That's it!</strong> Once set up, updating your live site is just 3 commands: <code class="code-inline">git add . → git commit → git push</code>
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-top:48px;padding:28px;background:rgba(63,140,255,0.06);border:1px solid rgba(63,140,255,0.15);border-radius:16px">
+    <div style="font-size:1.5rem;margin-bottom:10px">🚀</div>
+    <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:8px">World Social Solutions</h3>
+    <p style="font-size:.84rem;color:#8CA3C8">Your website is live. Your admin panel is deployed. You're ready to grow.</p>
+    <p style="font-size:.78rem;color:rgba(140,163,200,.4);margin-top:12px">Deployment Guide · worldsocialsolutions6@gmail.com</p>
+  </div>
+
+</div>
+</body>
+</html>

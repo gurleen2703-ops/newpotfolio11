@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Admin Panel – World Social Solutions</title>
+<meta name="robots" content="noindex,nofollow">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+<div class="admin-wrap">
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sb-logo">
+    <div class="sb-logo-box">W</div>
+    <div><div class="sb-name">WSS Admin</div><div class="sb-sub">World Social Solutions</div></div>
+  </div>
+  <nav class="sb-nav">
+    <div class="sb-nav-group">
+      <div class="sb-nav-label">Dashboard</div>
+      <a class="sb-item active" data-s="dashboard">🏠 Overview</a>
+    </div>
+    <div class="sb-nav-group">
+      <div class="sb-nav-label">Company</div>
+      <a class="sb-item" data-s="company">🏢 Company Info</a>
+      <a class="sb-item" data-s="seo">🔍 SEO Settings</a>
+      <a class="sb-item" data-s="stats">📊 Hero Stats</a>
+    </div>
+    <div class="sb-nav-group">
+      <div class="sb-nav-label">Content</div>
+      <a class="sb-item" data-s="services">⚙️ Services</a>
+      <a class="sb-item" data-s="about">👤 About / Founder</a>
+      <a class="sb-item" data-s="process">🔄 Process Steps</a>
+      <a class="sb-item" data-s="faqs">❓ FAQs</a>
+    </div>
+    <div class="sb-nav-group">
+      <div class="sb-nav-label">Portfolio</div>
+      <a class="sb-item" data-s="portfolio">🖼️ Portfolio Items</a>
+      <a class="sb-item" data-s="socialclients">📱 Social Clients</a>
+    </div>
+    <div class="sb-nav-group">
+      <div class="sb-nav-label">Proof</div>
+      <a class="sb-item" data-s="testimonials">💬 Testimonials</a>
+      <a class="sb-item" data-s="industries">🏷️ Industries</a>
+    </div>
+  </nav>
+  <div class="sb-footer">
+    <a href="../index.html" class="sb-view-site" target="_blank">↗ View Website</a>
+    <button class="sb-export" onclick="exportSitedata()">⬇ Export sitedata.js</button>
+    <button class="sb-reset" onclick="adminReset()">⚠ Reset All Data</button>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<div class="admin-main">
+  <header class="admin-header">
+    <button class="admin-toggle" id="adminToggle">☰</button>
+    <h1 id="adminTitle">Dashboard</h1>
+    <div class="ah-right">
+      <span class="save-indicator" id="saveInd">● Saved</span>
+      <button class="btn-export-hdr" onclick="exportSitedata()">⬇ Export JS</button>
+      <button class="btn-save-all" onclick="adminSaveAll()">💾 Save All</button>
+    </div>
+  </header>
+
+  <div class="admin-body">
+
+    <!-- DASHBOARD -->
+    <div class="asec active" id="asec-dashboard">
+      <div class="dash-cards" id="dashCards"></div>
+      <div class="dash-welcome">
+        <h2>Welcome to the Admin Panel 👋</h2>
+        <p>Manage all website content from here. Changes are saved to localStorage and reflected on the website instantly. Use the sidebar to navigate between sections.</p>
+        <div class="dash-quick">
+          <button class="dq-btn" onclick="goSec('portfolio')">+ Add Portfolio Item</button>
+          <button class="dq-btn" onclick="goSec('testimonials')">+ Add Testimonial</button>
+          <button class="dq-btn" onclick="goSec('socialclients')">+ Add Social Client</button>
+          <button class="dq-btn" onclick="goSec('services')">+ Edit Services</button>
+          <button class="dq-btn" onclick="goSec('company')">Edit Company Info</button>
+        </div>
+        <div class="dash-tip">
+          <strong>💡 Tip:</strong> To add your founder photo or portfolio images, place the image files in the <code>assets/images/</code> folder, then enter the filename in the relevant admin section (e.g. <code>assets/images/founder.jpg</code>).
+        </div>
+      </div>
+    </div>
+
+    <!-- COMPANY -->
+    <div class="asec" id="asec-company">
+      <div class="asec-header"><h2>Company Information</h2><p>Core business details shown across all pages.</p></div>
+      <div class="ag2" id="companyFields"></div>
+      <button class="btn-save" onclick="saveCompany()">Save Company Info</button>
+    </div>
+
+    <!-- SEO -->
+    <div class="asec" id="asec-seo">
+      <div class="asec-header"><h2>SEO Settings</h2><p>Page titles, descriptions and keywords for each page.</p></div>
+      <div id="seoFields"></div>
+      <button class="btn-save" onclick="saveSEO()">Save SEO Settings</button>
+    </div>
+
+    <!-- STATS -->
+    <div class="asec" id="asec-stats">
+      <div class="asec-header"><h2>Hero Stats</h2><p>The numbers shown in the hero section (e.g. "50+ Projects").</p></div>
+      <div id="statsRows"></div>
+      <button class="btn-add" onclick="addStat()">+ Add Stat</button>
+      <button class="btn-save" onclick="saveStats()">Save Stats</button>
+    </div>
+
+    <!-- SERVICES -->
+    <div class="asec" id="asec-services">
+      <div class="asec-header"><h2>Services</h2><p>All services listed on the website. Toggle "Featured" to mark popular services.</p></div>
+      <div id="servicesRows"></div>
+      <button class="btn-add" onclick="addService()">+ Add Service</button>
+      <button class="btn-save" onclick="saveServices()">Save Services</button>
+    </div>
+
+    <!-- ABOUT -->
+    <div class="asec" id="asec-about">
+      <div class="asec-header"><h2>About / Founder</h2><p>Content for the About page and founder section.</p></div>
+      <div id="aboutFields"></div>
+      <button class="btn-save" onclick="saveAbout()">Save About</button>
+    </div>
+
+    <!-- PROCESS -->
+    <div class="asec" id="asec-process">
+      <div class="asec-header"><h2>Process Steps</h2><p>The step-by-step workflow shown on About and Services pages.</p></div>
+      <div id="processRows"></div>
+      <button class="btn-add" onclick="addStep()">+ Add Step</button>
+      <button class="btn-save" onclick="saveProcess()">Save Process</button>
+    </div>
+
+    <!-- FAQS -->
+    <div class="asec" id="asec-faqs">
+      <div class="asec-header"><h2>FAQs</h2><p>Frequently asked questions shown on Services and Contact pages.</p></div>
+      <div id="faqRows"></div>
+      <button class="btn-add" onclick="addFAQ()">+ Add FAQ</button>
+      <button class="btn-save" onclick="saveFAQs()">Save FAQs</button>
+    </div>
+
+    <!-- PORTFOLIO -->
+    <div class="asec" id="asec-portfolio">
+      <div class="asec-header">
+        <h2>Portfolio Items</h2>
+        <p>Projects shown in the portfolio section. Place images in <code>assets/images/</code> then reference them here.</p>
+      </div>
+      <button class="btn-add top" onclick="openPortModal()">+ Add Portfolio Item</button>
+      <div class="item-list" id="portfolioList"></div>
+      <button class="btn-save" onclick="savePortfolio()">Save Portfolio</button>
+    </div>
+
+    <!-- SOCIAL CLIENTS -->
+    <div class="asec" id="asec-socialclients">
+      <div class="asec-header"><h2>Social Media Clients</h2><p>Instagram / social pages managed for clients.</p></div>
+      <button class="btn-add top" onclick="openSCModal()">+ Add Social Client</button>
+      <div class="item-list" id="socialClientList"></div>
+      <button class="btn-save" onclick="saveSocialClients()">Save Social Clients</button>
+    </div>
+
+    <!-- TESTIMONIALS -->
+    <div class="asec" id="asec-testimonials">
+      <div class="asec-header"><h2>Testimonials</h2><p>Client reviews shown on the website.</p></div>
+      <button class="btn-add top" onclick="openTestModal()">+ Add Testimonial</button>
+      <div class="item-list" id="testimonialList"></div>
+      <button class="btn-save" onclick="saveTestimonials()">Save Testimonials</button>
+    </div>
+
+    <!-- INDUSTRIES -->
+    <div class="asec" id="asec-industries">
+      <div class="asec-header"><h2>Industries</h2><p>Industries shown in the industries section.</p></div>
+      <div id="industryRows"></div>
+      <button class="btn-add" onclick="addIndustry()">+ Add Industry</button>
+      <button class="btn-save" onclick="saveIndustries()">Save Industries</button>
+    </div>
+
+  </div><!-- admin-body -->
+</div><!-- admin-main -->
+</div><!-- admin-wrap -->
+
+<!-- OVERLAY -->
+<div class="modal-ov" id="modalOv" onclick="closeModal()"></div>
+
+<!-- PORTFOLIO MODAL -->
+<div class="modal" id="portModal">
+  <div class="modal-hd"><h3 id="portModalTitle">Add Portfolio Item</h3><button class="modal-x" onclick="closeModal()">✕</button></div>
+  <div class="modal-bd">
+    <input type="hidden" id="pm-id">
+    <div class="mg2">
+      <div class="fg"><label>Title *</label><input type="text" id="pm-title" placeholder="e.g. Coffee Moods"></div>
+      <div class="fg"><label>Category</label>
+        <select id="pm-cat"><option value="websites">Websites</option><option value="branding">Branding</option><option value="video">Video</option><option value="social">Social Media</option><option value="print">Print</option></select>
+      </div>
+    </div>
+    <div class="fg"><label>Meta Tag</label><input type="text" id="pm-meta" placeholder="e.g. Website Design"></div>
+    <div class="fg"><label>Description</label><textarea id="pm-desc" rows="3"></textarea></div>
+    <div class="mg2">
+      <div class="fg"><label>Emoji (no image)</label><input type="text" id="pm-emoji" placeholder="☕"></div>
+      <div class="fg"><label>Background Gradient</label>
+        <select id="pm-bg">
+          <option value="linear-gradient(135deg,#1a1a2e,#0f3460)">Dark Blue</option>
+          <option value="linear-gradient(135deg,#2d1b0e,#6b3f1f)">Brown</option>
+          <option value="linear-gradient(135deg,#0a2540,#1a5fa0)">Navy</option>
+          <option value="linear-gradient(135deg,#0d2818,#245c38)">Green</option>
+          <option value="linear-gradient(135deg,#8b0000,#dc143c)">Red</option>
+          <option value="linear-gradient(135deg,#0a1520,#1a3a5c)">Dark Teal</option>
+          <option value="linear-gradient(135deg,#1a0a2e,#4a1a99)">Purple</option>
+          <option value="linear-gradient(135deg,#1a1a1a,#4a4a4a)">Dark Grey</option>
+          <option value="linear-gradient(135deg,#1a2e1a,#3a6b3a)">Forest</option>
+        </select>
+      </div>
+    </div>
+    <div class="mg2">
+      <div class="fg"><label>Link URL</label><input type="text" id="pm-link" placeholder="https://..."></div>
+      <div class="fg"><label>Link Label</label><input type="text" id="pm-linklbl" placeholder="View Website ↗"></div>
+    </div>
+    <div class="fg"><label>Image Path (place in assets/images/)</label><input type="text" id="pm-img" placeholder="assets/images/portfolio-coffee.jpg"></div>
+    <div class="fg"><label>Tags (comma-separated)</label><input type="text" id="pm-tags" placeholder="Web Design, Branding, Coffee"></div>
+  </div>
+  <div class="modal-ft">
+    <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+    <button class="btn-save" onclick="savePortItem()">Save Item</button>
+  </div>
+</div>
+
+<!-- SOCIAL CLIENT MODAL -->
+<div class="modal" id="scModal">
+  <div class="modal-hd"><h3 id="scModalTitle">Add Social Client</h3><button class="modal-x" onclick="closeModal()">✕</button></div>
+  <div class="modal-bd">
+    <input type="hidden" id="sc-id">
+    <div class="mg2">
+      <div class="fg"><label>Client / Page Name *</label><input type="text" id="sc-name" placeholder="CanadaBeforeYouGo"></div>
+      <div class="fg"><label>Platform</label>
+        <select id="sc-plat"><option>Instagram</option><option>Facebook</option><option>LinkedIn</option><option>YouTube</option><option>Twitter/X</option></select>
+      </div>
+    </div>
+    <div class="fg"><label>Industry</label><input type="text" id="sc-industry" placeholder="e.g. Immigration Guidance"></div>
+    <div class="fg"><label>Content Tags (comma-separated)</label><input type="text" id="sc-tags" placeholder="Canada PR, Immigration Reels"></div>
+    <div class="fg"><label>Profile Link</label><input type="text" id="sc-link" placeholder="https://www.instagram.com/..."></div>
+    <div class="fg"><label>Result / Achievement</label><input type="text" id="sc-result" placeholder="e.g. Growing community of 5K followers"></div>
+  </div>
+  <div class="modal-ft">
+    <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+    <button class="btn-save" onclick="saveSCItem()">Save Client</button>
+  </div>
+</div>
+
+<!-- TESTIMONIAL MODAL -->
+<div class="modal" id="testModal">
+  <div class="modal-hd"><h3 id="testModalTitle">Add Testimonial</h3><button class="modal-x" onclick="closeModal()">✕</button></div>
+  <div class="modal-bd">
+    <input type="hidden" id="tm-id">
+    <div class="fg"><label>Quote *</label><textarea id="tm-quote" rows="4" placeholder="What did the client say?"></textarea></div>
+    <div class="mg2">
+      <div class="fg"><label>Name *</label><input type="text" id="tm-name" placeholder="Dr. Chandan Arora"></div>
+      <div class="fg"><label>Title / Business</label><input type="text" id="tm-title" placeholder="Healthcare Specialist"></div>
+    </div>
+    <div class="mg2">
+      <div class="fg"><label>Initials (2 chars)</label><input type="text" id="tm-init" maxlength="2" placeholder="CA"></div>
+      <div class="fg"><label>Rating</label>
+        <select id="tm-rating"><option value="5">★★★★★ 5</option><option value="4">★★★★☆ 4</option><option value="3">★★★☆☆ 3</option></select>
+      </div>
+    </div>
+    <div class="fg"><label>Avatar Image (optional)</label><input type="text" id="tm-avatar" placeholder="assets/images/client-avatar.jpg"></div>
+  </div>
+  <div class="modal-ft">
+    <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+    <button class="btn-save" onclick="saveTestItem()">Save Testimonial</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- DEPLOY HELP MODAL -->
+<div class="modal" id="deployHelpModal" style="max-width:640px">
+  <div class="modal-hd">
+    <h3>🚀 How to Deploy Changes to Live Site</h3>
+    <button class="modal-x" onclick="closeModal()">✕</button>
+  </div>
+  <div class="modal-bd" style="font-size:.86rem;line-height:1.75;color:#8CA3C8">
+    <div class="deploy-step">
+      <div class="ds-num">1</div>
+      <div>
+        <strong style="color:#fff">Make your changes in Admin Panel</strong><br>
+        Edit content, add portfolio items, update testimonials — anything you want.
+      </div>
+    </div>
+    <div class="deploy-step">
+      <div class="ds-num">2</div>
+      <div>
+        <strong style="color:#fff">Click "⬇ Export sitedata.js"</strong><br>
+        This downloads a fresh <code>sitedata.js</code> file with all your changes baked in.
+      </div>
+    </div>
+    <div class="deploy-step">
+      <div class="ds-num">3</div>
+      <div>
+        <strong style="color:#fff">Replace the file in VS Code</strong><br>
+        Copy the downloaded <code>sitedata.js</code> into your project's <code>data/</code> folder, replacing the old one.
+      </div>
+    </div>
+    <div class="deploy-step">
+      <div class="ds-num">4</div>
+      <div>
+        <strong style="color:#fff">Push to GitHub</strong><br>
+        Open VS Code terminal and run:
+        <div class="code-block">git add .<br>git commit -m "update site content"<br>git push</div>
+      </div>
+    </div>
+    <div class="deploy-step">
+      <div class="ds-num">5</div>
+      <div>
+        <strong style="color:#fff">Vercel auto-deploys in ~20 seconds</strong><br>
+        Visit your Vercel dashboard — you'll see a new deployment triggered. Your live site updates automatically. ✅
+      </div>
+    </div>
+    <div style="margin-top:20px;padding:14px 16px;background:rgba(63,140,255,0.08);border:1px solid rgba(63,140,255,0.2);border-radius:10px">
+      💡 <strong style="color:#fff">Tip:</strong> Bookmark your Vercel dashboard at <strong style="color:#6ED4FF">vercel.com/dashboard</strong> to monitor deployments in real time.
+    </div>
+  </div>
+  <div class="modal-ft">
+    <button class="btn-cancel" onclick="closeModal()">Close</button>
+    <button class="btn-save" onclick="exportSitedata();closeModal()">⬇ Export Now</button>
+  </div>
+</div>
+
+<script src="../data/sitedata.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>
